@@ -1,43 +1,45 @@
 <template>
     <div>
         <form>
+            <div class="alert alert-success" role="alert" v-if="success">
+                Successfully submitted a translation
+            </div>
+            <div class="alert alert-danger" role="alert" v-if="error">
+                Please fill in all fields
+            </div>
             <div class="form-group">
                 <label for="word">Word</label>
                 <input v-model='word' type="text" class="form-control" id="word" placeholder="Type a word" required="required">
             </div>
             <div class="form-group">
+                <label for="language">Translating To</label>
+                <select v-model='language' class="form-control" id="language" required="required">
+                    <option value="English ">Estonian</option>
+                    <option value="Estonian">English</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <label for="explanation">Translation</label>
                 <input v-model='translation' type="text" class="form-control" id="explanation" placeholder="Translate the word" required="required">
             </div>
-            <div class="form-group">
-                <label for="language">What language is the word written in?</label>
-                <select v-model='language' class="form-control" id="language" required="required">
-                    <option>English</option>
-                    <option>Estonian</option>
-                </select>
-            </div>
         </form>
         <button v-on:click='createword' class="btn btn-secondary mb-2 ">Submit word</button>
-        Estonian {{estonian}}
-        <br>
-        English {{english}}
     </div>
 </template>
 
 <script>
     export default {
         name: 'app',
-        el: '#app',
         data: function() {
             return {
                 estonian: {},
                 english: {},
-                message: 'sdasd',
                 word: '',
                 translation: '',
                 language: '',
-                loaded: false,
                 values: [],
+                success: false,
+                error: false,
             }
         },
         mounted() {
@@ -49,6 +51,7 @@
         methods: {
             createword: function () {
                 this.values = [];
+                this.success, this.error = false;
                 if (this.word && this.language && this.translation) {
                     if (this.language === "Estonian"){
                         if (!(this.word in this.estonian)) {
@@ -79,6 +82,9 @@
                             }
                         }
                     }
+                    this.success = true;
+                }else{
+                    this.error = true;
                 }
                 localStorage.estonian = JSON.stringify(this.estonian);
                 localStorage.english = JSON.stringify(this.english);
