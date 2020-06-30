@@ -84,7 +84,7 @@
                     }else{
                         this.fuzzy = this.word.replace(/ /g, '').toLowerCase();
                         for(const key in this.data) {
-                            const newkey = key.split('');
+                            const newkey = key.toLowerCase().split('');
                             const newfuzzy = this.fuzzy.split('');
                             this.position = 0;
                             for (const index in newkey){
