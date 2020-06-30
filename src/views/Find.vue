@@ -23,7 +23,7 @@
                         <label for="filter">Search Filter</label>
                         <select v-model='filter' class="form-control" id="filter">
                             <option>Exact match</option>
-                            <option>Contains</option>
+                            <option>Fuzzy Match</option>
                         </select>
                     </div>
                 </div>
@@ -52,6 +52,8 @@
                 data: {},
                 results: '',
                 word: '',
+                fuzzy: '',
+                position: 0,
                 language: '',
                 filter: '',
                 loaded: false,
@@ -80,9 +82,19 @@
                             }
                         }
                     }else{
+                        this.fuzzy = this.word.replace(/ /g, '').toLowerCase();
                         for(const key in this.data) {
-                            if (key.toLowerCase().includes(this.word.toLowerCase())) {
-                                this.results.push(key + ' - ' + this.data[key])
+                            const newkey = key.split('');
+                            const newfuzzy = this.fuzzy.split('');
+                            this.position = 0;
+                            for (const index in newkey){
+                                if (newfuzzy[this.position] === newkey[index]){
+                                    this.position++;
+                                }
+                                if (this.position >= newfuzzy.length){
+                                    this.results.push(key + ' - ' + this.data[key]);
+                                    break
+                                }
                             }
                         }
                     }
