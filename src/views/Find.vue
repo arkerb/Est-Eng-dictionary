@@ -82,16 +82,15 @@
                             }
                         }
                     }else{
-                        this.fuzzy = this.word.replace(/ /g, '').toLowerCase();
+                        this.fuzzy = this.word.replace(/ /g, '').toLowerCase().split(''); // Removing spaces from Fuzzy filter
                         for(const key in this.data) {
-                            const newkey = key.toLowerCase().split('');
-                            const newfuzzy = this.fuzzy.split('');
-                            this.position = 0;
+                            const newkey = key.toLowerCase().split(''); // Lowercase-ing and splitting word into chars
+                            this.position = 0; // Position in Fuzzy filter list
                             for (const index in newkey){
-                                if (newfuzzy[this.position] === newkey[index]){
+                                if (this.fuzzy[this.position] === newkey[index]){
                                     this.position++;
                                 }
-                                if (this.position >= newfuzzy.length){
+                                if (this.position >= this.fuzzy.length){
                                     this.results.push(key + ' - ' + this.data[key]);
                                     break
                                 }

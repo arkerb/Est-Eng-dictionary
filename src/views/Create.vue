@@ -50,14 +50,18 @@
         },
         methods: {
             createword: function () {
-                this.values = [];
-                this.success, this.error = false;
-                if (this.word && this.language && this.translation) {
+                /*
+                Function that adds words to dictionary
+                 */
+                this.values = []; // List to help if one key has multiple values.
+                this.success = false;
+                this.error = false; // Booleans to call out pop-ups
+                if (this.word && this.language && this.translation) { // Check if form is not empty
                     if (this.language === "Estonian"){
-                        if (!(this.word in this.estonian)) {
+                        if (!(this.word in this.estonian)) { // If word doesn't already exist in dictionary
                             this.estonian[this.word] = this.translation;
                             this.english[this.translation] = this.word;
-                        }else if (!this.estonian[this.word].includes(this.translation)){
+                        }else if (!this.estonian[this.word].includes(this.translation)){ // Prevents same values in dictionary
                             this.values = this.estonian[this.word] + ", " + this.translation;
                             this.estonian[this.word] =this.values;
                             if (!(this.translation in this.english)){
@@ -71,7 +75,7 @@
                         if (!(this.word in this.english)) {
                             this.english[this.word] = this.translation;
                             this.estonian[this.translation] = this.word;
-                        }else if (!this.english[this.word].includes(this.translation)){
+                        }else if (!this.english[this.word].includes(this.translation)){  // Prevents same values in dictionary
                             this.values = this.english[this.word] + ", " + this.translation;
                             this.english[this.word] =this.values;
                             if (!(this.translation in this.estonian)){
